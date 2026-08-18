@@ -24,7 +24,7 @@ class StudentServiceTest {
 
         // assertTrue(actualResult, "List Of Student is empty!");
 
-        // assertTrue(() -> actualResult, "List Of Student is empty!");
+         assertTrue(() -> actualResult, "List Of Student is empty!");
 
     }
     @Test
@@ -69,5 +69,27 @@ class StudentServiceTest {
 
         assertNotNull(actualStudent, () -> "Student is null!");
     }
+    @Test
+    public void getStudentByIdTestUsingAssertEquals() {
+        StudentService studentService = new StudentService();
+        Student s1 = new Student(1 , "Hicham");
+        studentService.addStudent(s1);
 
+        Student actualStudent = studentService.getStudentById(1);
+
+        // assertEquals(1, actualStudent.getId());   //  assertEquals test if actualStudent has 1 in his id
+
+        // assertEquals("Hicham", actualStudent.getName());
+
+        // Student s2 = new Student(1 , "Hicham");
+        // assertEquals(s1, actualStudent);
+
+        assertEquals(1, actualStudent.getId(), "Student ID is not equal!");
+
+        assertEquals("Hicham", actualStudent.getName(), () -> "Student Name is not equal!");
+    }
+    @Test
+    public void getStudentByIdTestUsingAssertThrows() {
+
+    }
 }
