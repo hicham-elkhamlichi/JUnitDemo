@@ -1,6 +1,7 @@
 package com.example.assertions;
 
 import com.example.Student;
+import com.example.StudentNotFoundException;
 import com.example.StudentService;
 import org.junit.jupiter.api.Test;
 
@@ -18,13 +19,13 @@ class StudentServiceTest {
 
         boolean actualResult = listOfStudents.isEmpty();
 
-        // assertTrue(actualResult);   //   assertTrue  test if actualResult is True
+        assertTrue(actualResult);   //   assertTrue  test if actualResult is True
 
-        // assertTrue(() -> actualResult);
+        assertTrue(() -> actualResult);
 
-        // assertTrue(actualResult, "List Of Student is empty!");
+        assertTrue(actualResult, "List Of Student is empty!");
 
-         assertTrue(() -> actualResult, "List Of Student is empty!");
+        assertTrue(() -> actualResult, "List Of Student is empty!");
 
     }
     @Test
@@ -37,11 +38,11 @@ class StudentServiceTest {
 
         boolean actualResult = listOfStudents.isEmpty();
 
-         // assertFalse(actualResult);   //  assertFalse test if actualResult is False
+        assertFalse(actualResult);   //  assertFalse test if actualResult is False
 
-        // assertFalse(actualResult, "Student list should not be empty!");
+        assertFalse(actualResult, "Student list should not be empty!");
 
-        // assertFalse(() -> actualResult);
+        assertFalse(() -> actualResult);
 
         assertFalse(() -> actualResult, "Student list should not be empty!");
     }
@@ -53,7 +54,7 @@ class StudentServiceTest {
 
         Student actualStudent = studentService.getStudentById(3);
 
-        //assertNull(actualStudent);  //  assertNull test if actualStudent is Null
+        assertNull(actualStudent);  //  assertNull test if actualStudent is Null
 
         assertNull(actualStudent, "Student object is not null");
     }
@@ -65,7 +66,7 @@ class StudentServiceTest {
 
         Student actualStudent = studentService.getStudentById(1);
 
-        // assertNotNull(actualStudent);  //  assertNotNull test if actualStudent is Not Null
+        assertNotNull(actualStudent);  //  assertNotNull test if actualStudent is Not Null
 
         assertNotNull(actualStudent, () -> "Student is null!");
     }
@@ -77,12 +78,12 @@ class StudentServiceTest {
 
         Student actualStudent = studentService.getStudentById(1);
 
-        // assertEquals(1, actualStudent.getId());   //  assertEquals test if actualStudent has 1 in his id
+        assertEquals(1, actualStudent.getId());   //  assertEquals test if actualStudent has 1 in his id
 
-        // assertEquals("Hicham", actualStudent.getName());
+        assertEquals("Hicham", actualStudent.getName());
 
-        // Student s2 = new Student(1 , "Hicham");
-        // assertEquals(s1, actualStudent);
+        Student s2 = new Student(1 , "Hicham");
+        assertEquals(s1, actualStudent);
 
         assertEquals(1, actualStudent.getId(), "Student ID is not equal!");
 
@@ -90,6 +91,22 @@ class StudentServiceTest {
     }
     @Test
     public void getStudentByIdTestUsingAssertThrows() {
+        StudentService studentService = new StudentService();
+        Student s1 = new Student(1 , "Hicham");
+        studentService.addStudent(s1);
 
+        // assertThrows verifies that the given code (lambda) throws the expected exception type;
+        // the test fails if no exception is thrown or if a different exception type is thrown
+        assertThrows(StudentNotFoundException.class, () -> {
+            studentService.getStudentByName("java");
+        });
+
+        assertThrows(NullPointerException.class, () -> {
+            studentService.getStudentByName("Hicham");
+        });
+
+        assertThrows(StudentNotFoundException.class, () -> {
+            studentService.getStudentByName("Hicham");
+            }, "StudentNotFoundException should be thrown. But it wasn't");
     }
 }
